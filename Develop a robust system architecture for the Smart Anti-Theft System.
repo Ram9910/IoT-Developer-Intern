@@ -1,0 +1,49 @@
+// Define pins for sensors and alarm
+const int motionSensorPin = 2;
+const int doorSensorPin = 3;
+const int alarmPin = 4;
+
+// Setup function
+void setup() {
+  // Initialize serial communication
+  Serial.begin(9600);
+  
+  // Set sensor pins as inputs
+  pinMode(motionSensorPin, INPUT);
+  pinMode(doorSensorPin, INPUT);
+  
+  // Set alarm pin as output
+  pinMode(alarmPin, OUTPUT);
+}
+
+// Main loop
+void loop() {
+  // Read sensor inputs
+  int motionDetected = digitalRead(motionSensorPin);
+  int doorOpened = digitalRead(doorSensorPin);
+  
+  // Check for motion or door opening
+  if (motionDetected == HIGH || doorOpened == HIGH) {
+    // Trigger alarm
+    activateAlarm();
+  }
+  else {
+    // Deactivate alarm
+    deactivateAlarm();
+  }
+  
+  // Delay for stability
+  delay(1000);
+}
+
+// Function to activate the alarm
+void activateAlarm() {
+  digitalWrite(alarmPin, HIGH);
+  Serial.println("Security breach detected! Alarm activated.");
+}
+
+// Function to deactivate the alarm
+void deactivateAlarm() {
+  digitalWrite(alarmPin, LOW);
+  Serial.println("Security cleared. Alarm deactivated.");
+}
